@@ -20,6 +20,30 @@ region_height = int(screen_height * 0.5)
 region_x = (screen_width - region_width) // 2
 region_y = (screen_height - region_height) // 2
 
+region = {
+    "input_sinacor": {
+        "x": 940,
+        "y": 410
+    },
+    "button_validate": {
+        "x": 2000,
+        "y": 555
+    },
+    "button_include": {
+        "x": 2000,
+        "y": 1265
+    },
+    "button_formalization": {
+        "x": 1640,
+        "y": 1045
+    },
+    "button_message_close": {
+        "x": 1786,
+        "y": 873
+    }
+}
+
+
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 def openFile(filename):
@@ -60,7 +84,7 @@ def check_for_errors():
 
 def push(sinacor, id, quantity):
     try:
-        pyautogui.doubleClick(940, 410)
+        pyautogui.doubleClick(region["input_sinacor"]["x"], region["input_sinacor"]["y"])
 
         for letter in sinacor:
           pyautogui.typewrite(letter)
@@ -84,30 +108,28 @@ def push(sinacor, id, quantity):
 
             pyautogui.press('backspace')
 
-        # Button "Validar"
-        pyautogui.click(2000, 555)
+        pyautogui.click(region["button_validate"]["x"], region["button_validate"]["y"])
+
         time.sleep(WAITING_TIME)
 
         if check_for_errors():
             # Close Message Error 1
-            pyautogui.click(1786, 873)
+            pyautogui.click(region["button_message_close"]["x"], region["button_message_close"]["y"])
             time.sleep(DELAY_TO_ACTIONS)
 
             # Close Message Error 2
-            pyautogui.click(1786, 873)
+            pyautogui.click(region["button_message_close"]["x"], region["button_message_close"]["y"])
             time.sleep(DELAY_TO_ACTIONS)
             return "Erro ao enviar"
 
-        # Button "Incluir"
-        pyautogui.click(2000, 1265)
+        pyautogui.click(region["button_include"]["x"], region["button_include"]["y"])
+
         time.sleep(DELAY_TO_ACTIONS)
 
-        # Button "Enviar para Formalização", se existir
-        pyautogui.click(1640, 1045)
+        pyautogui.click(region["button_formalization"]["x"], region["button_formalization"]["y"])
         time.sleep(WAITING_TIME)
 
-        # Close Success Message
-        pyautogui.click(1786, 873)
+        pyautogui.click(region["button_message_close"]["x"], region["button_message_close"]["y"])
         time.sleep(DELAY_TO_ACTIONS)
 
         print(f"Sinacor: {sinacor} | ID: {id} | Quantidade: {quantity}: Sucesso")
